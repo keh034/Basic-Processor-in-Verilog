@@ -1,0 +1,62 @@
+loadi 8 //Initialize Divisor 8 MSB
+movi r1 
+load r1
+movi r1
+
+loadi 9 //Initialize Divisor 8 LSB
+movi r2
+load r2
+movi r2
+
+loadi 1 //Dividend, have 0 in r3, 0000 0001 in r4
+movi r4	
+
+loadi 0
+movi r3 // Dividend msb
+movi r5
+movi r6
+
+loadi 16 //Loop counter, want to loop exactly 16 times
+movi r7
+
+b1:
+	shiftl r6 1 // leftshift quotient
+	shiftlc r5
+	movo r1 	// want to find if dividend less than divisor
+	cmpl r3	// r3 < r1, r1 = divisor msb
+	beq b3 // if r3 < r1, dont subtract
+	cmpe r3
+	bne b2 // if r3 == r1, compare lsb. if r3 > r1, subtract
+	movo r2 // r4 < r2, r2 = divisor msb
+	cmpl r4 // if r4 < r2, don't subtract, else subtract
+	beq b3 // if dividend is less than divisor, skip subtracting
+b2:
+	movo r2
+	sub r4
+	movi r4
+	movo r1 // dividend = dividend - divisor
+	subc r3
+	movi r3
+	loadi 1 // quotient lsb set to 1
+	or r6
+	movi r6
+b3:
+	shiftl r4 1 // shift dividend left by 1
+	shiftlc r3 // only shift if didnt subtract
+
+	subi r7 1
+	loadi 0
+	cmpe r7
+	bne b1
+
+loadi 10
+movi r7
+movo r5
+store r7
+
+loadi 11
+movi r7
+movo r6
+store r7
+
+halt

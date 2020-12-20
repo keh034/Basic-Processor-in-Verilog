@@ -1,0 +1,102 @@
+loadi 16
+movi r1
+load r1
+movi r1 //8 MSB of n
+
+loadi 17
+movi r2
+load r2
+
+movi r2 //8 LSB of n
+loadi 0
+movi r3 //8 MSB of x
+movi r4 //8 LSB of x
+movi r5 //8 MSB of b
+movi r6 //8 LSB of b
+loadi 4
+movi r7
+shiftl r7 4
+movo r7
+or r5
+movi r5
+b1: 
+    movo r1 //Check if MSB of b > n
+    cmpg r5
+    beq b5 //Go to b5 if true
+    cmpl r5 //Check if MSB of b < n
+    beq b2 //Go to b2 if true, otherwise check LSB
+    movo r2 // MSB b == n must be true to get here
+    cmpg r6 
+    bne b2  //Go to b2 if LSB n>=b
+b5:
+    shiftr r5 1
+    shiftrc r6
+    shiftr r5 1
+    shiftrc r6
+    movo r1
+    cmpe r1
+    beq b1
+b2:
+    loadi 0
+    cmpe r5
+    bne b6
+    cmpe r6
+    beq end 
+b6:
+    movo r4 //Conditional - if (n >= x + b)
+    add r6
+    movi r7 //r7 contains LSB sum
+    movo r3
+    addc r5 //r0 contains MSB sum
+    cmpl r1 //Check MSB n < x+b
+    beq b3 
+    cmpg r1 //Check MSB n > x + b
+    beq b7
+    movo r7 
+    cmpl r2
+    beq b3
+b7:
+    movo r6 //n - b
+    sub r2
+    movi r2
+    movo r5
+    subc r1
+    movi r1
+
+    movo r4 //n - x
+    sub r2
+    movi r2
+    movo r3
+    subc r1
+    movi r1
+
+    shiftr r3 1 // x >> 1
+    shiftrc r4
+
+    movo r4 // x = x + b
+    add r6
+    movi r4
+    movo r3
+    addc r5
+    movi r3
+
+    movo r1
+    cmpe r1
+    beq b8
+b3:
+    shiftr r3 1 //x >> 1
+    shiftrc r4
+b8:
+    shiftr r5 1 // b >> 2
+    shiftrc r6
+    shiftr r5 1
+    shiftrc r6
+    movo r1
+    cmpe r1
+    beq b2
+end:
+    loadi 18
+    movi r6
+    movo r4
+    store r6
+    halt

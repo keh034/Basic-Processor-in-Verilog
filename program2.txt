@@ -1,0 +1,85 @@
+loadi 0 //r1 = dividend 16-8
+movi r1
+load r1
+movi r1
+
+loadi 1 //r2 = dividend 7-0
+movi r2
+load r2
+movi r2
+
+loadi 2 //r3 = divisor 7-0
+movi r3
+load r3
+movi r3
+
+loadi 16 //loop counter
+movi r5
+loadi 0
+movi r4 //remainder = 0
+movi r6
+b1:
+    shiftl r2 1     // dividend r1/r2 is slowly being cleared as we shift left
+    shiftlc r1      // shift remainder left once
+    shiftlc r4      // set the LSB of remainder to the ith bit of dividend = shift dividend left and shift carry into remainder
+    shiftlc r6      
+
+    loadi 1
+    cmpe r6
+    beq b2
+
+    movo r3         // check if divisor is less than remainder
+    cmpl r4         // r3 = 1111 1111
+    beq b3          // r4 = 1010 1010 << 1 => 0001 0101 0101
+b2:
+    movo r3 
+    sub r4
+    movi r4
+    loadi 0
+    subc r6
+    movi r6
+    addi r2 1
+b3:
+    subi r5 1
+    loadi 0
+    cmpe r5
+    bne b1
+loadi 4
+movi r6
+movo r1
+store r6
+
+loadi 5
+movi r6
+movo r2
+store r6
+
+loadi 0
+movi r1 //quotient
+
+loadi 0 //Loop Counter
+movi r5
+b4:
+    shiftl r1 1
+    shiftl r4 1
+
+    movo r3
+    cmpl r4
+    beq b6
+b5:
+    movo r3
+    sub r4
+    movi r4
+    loadi 1
+    addi r1 1
+b6:
+    addi r5 1
+    loadi 8
+    cmpe r5
+    bne b4
+
+loadi 6
+movi r6
+movo r1
+store r6
+halt
