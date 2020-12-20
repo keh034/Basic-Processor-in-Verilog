@@ -15,15 +15,3 @@ How to run a program:
 2) Compile the .v files with the appropriate machine_code on Modelsim/Quartus.
 3) Switch to the correct test bench
 4) Simulate and run!
-
-Zoom link:
-https://ucsd.zoom.us/rec/play/rDwaBewxNRnANk25yJYMhWZUyZKYsfrcucCfSk0J3OVPXKmrlI9LaXZsj7HXEyj6qY81-qQIqrUTIBU.rgAjmnxNUeEC0PQY?autoplay=true&continueMode=true&startTime=1607735514000
-
-First two recordings were tests. Press the '>|' button in the bottom left to skip recordings.
-The demo is shown in the third recording.
-
-Timestamps:
-	Overview: 0:00
-	Program 1: 3:26
-	Program 2: 9:07
-	Program 3: 12:30
